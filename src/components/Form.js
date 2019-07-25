@@ -3,11 +3,16 @@ import React, {useState, useEffect} from 'react'
 function Form(props) {
 
     const [teamMember, setTeamMember] = useState({name:"", email:"",role:""})
+    const [isEditing, setIsEditing] = useState(false)
 
     function handleSubmit(event){
         event.preventDefault()
+        if(isEditing === true){
+            props.editMember(teamMember)
+            setIsEditing(false)
+        }else{
         props.setTeam([...props.team, teamMember])
-        console.log("teamMember", teamMember)
+        console.log("teamMember", teamMember)}
     }
 
     function handleChange(event) {
@@ -18,6 +23,7 @@ function Form(props) {
 
     useEffect(() =>{
         setTeamMember(props.member || {name: '', email: '', role: ''})
+        setIsEditing(true)
         console.log('props.member', props.member)
     },[props.member])
 
